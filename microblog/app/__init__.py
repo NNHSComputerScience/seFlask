@@ -21,6 +21,9 @@ mail = Mail(app)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 
+from app.main import bp as main_bp
+app.register_blueprint(main_bp)
+
 if not app.debug:
 	if app.config['MAIL_SERVER']:
 		auth = None
@@ -48,4 +51,4 @@ if not app.debug:
 	app.logger.setLevel(logging.INFO)
 	app.logger.info('Microblog startup')
 
-from app import routes, models, errors
+from app import models
