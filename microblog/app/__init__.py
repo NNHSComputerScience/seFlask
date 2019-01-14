@@ -9,6 +9,7 @@ from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from config import Config
+from app.models import User
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -17,6 +18,10 @@ login.login_view = 'auth.login'
 mail = Mail()
 bootstrap = Bootstrap()
 moment = Moment()
+
+@login.user_loader
+def load_user(id):
+	return User.query.get(int(id))
 
 def create_app(config_class=Config):
 	app = Flask(__name__)
@@ -68,4 +73,3 @@ def create_app(config_class=Config):
 	
 	return app
 
-from app import models
