@@ -29,7 +29,14 @@ app.register_blueprint(auth_bp, url_prefix='/auth')
 from app.main import bp as main_bp
 app.register_blueprint(main_bp)
 
-if not app.debug and not app.testing:
+from app.models import User
+
+@login.user_loader
+def load_user(id):
+        return User.query.get(int(id))
+
+#if not app.debug and not app.testing:
+if True:
 	if app.config['MAIL_SERVER']:
 		auth = None
 		if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
@@ -57,4 +64,3 @@ if not app.debug and not app.testing:
 	app.logger.setLevel(logging.INFO)
 	app.logger.info('Microblog startup')
 
-from app import models

@@ -1,10 +1,16 @@
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_required
-from app import app, db
+from app import app, db, login
 from app.main.forms import EditProfileForm, PostForm
+from app import models
 from app.models import User, Post
 from app.main import bp
+
+#DEBUG
+@login.user_loader
+def load_user(id):
+        return User.query.get(int(id))
 
 @bp.before_app_request
 def before_request():
